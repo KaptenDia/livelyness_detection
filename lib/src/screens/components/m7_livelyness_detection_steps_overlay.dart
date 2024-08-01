@@ -46,17 +46,19 @@ class LivelynessDetectionStepOverlayState
       height: double.infinity,
       width: double.infinity,
       color: Colors.transparent,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          _buildBody(),
-          Visibility(
-            visible: _isLoading,
-            child: const Center(
-              child: CircularProgressIndicator.adaptive(),
+      child: Center(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            _buildBody(),
+            Visibility(
+              visible: _isLoading,
+              child: const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -112,35 +114,35 @@ class LivelynessDetectionStepOverlayState
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          height: 10,
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                flex: _currentIndex + 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                    color: Colors.green.shade800,
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: widget.steps.length - (_currentIndex + 1),
-                child: Container(
-                  color: Colors.transparent,
-                ),
-              ),
-            ],
-          ),
-        ),
+        // SizedBox(
+        //   height: 10,
+        //   width: double.infinity,
+        //   child: Row(
+        //     mainAxisAlignment: MainAxisAlignment.start,
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     mainAxisSize: MainAxisSize.min,
+        //     children: [
+        //       Expanded(
+        //         flex: _currentIndex + 1,
+        //         child: Container(
+        //           decoration: const BoxDecoration(
+        //             borderRadius: BorderRadius.only(
+        //               topRight: Radius.circular(20),
+        //               bottomRight: Radius.circular(20),
+        //             ),
+        //             color: Colors.white,
+        //           ),
+        //         ),
+        //       ),
+        //       Expanded(
+        //         flex: widget.steps.length - (_currentIndex + 1),
+        //         child: Container(
+        //           color: Colors.transparent,
+        //         ),
+        //       ),
+        //     ],
+        //   ),
+        // ),
         const Spacer(),
         Flexible(
           flex: 2,
@@ -154,28 +156,44 @@ class LivelynessDetectionStepOverlayState
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 5,
-                            spreadRadius: 2.5,
-                            color: Colors.black12,
+                      // decoration: BoxDecoration(
+                      //   color: const Color(0xff045257),
+                      //   borderRadius: BorderRadius.circular(20),
+                      //   boxShadow: const [
+                      //     BoxShadow(
+                      //       blurRadius: 5,
+                      //       spreadRadius: 2.5,
+                      //       color: Colors.black12,
+                      //     ),
+                      //   ],
+                      // ),
+                      alignment: Alignment.bottomCenter,
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 30,
+                      ),
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(
+                            Icons.info_outline_rounded,
+                            color: Colors.white,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 32, top: 4),
+                            child: Text(
+                              widget.steps[index].title,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ],
-                      ),
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(horizontal: 30),
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        widget.steps[index].title,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
                       ),
                     ),
                   ),
@@ -184,9 +202,6 @@ class LivelynessDetectionStepOverlayState
               },
             ),
           ),
-        ),
-        const Spacer(
-          flex: 14,
         ),
       ],
     );

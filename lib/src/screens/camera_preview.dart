@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:livelyness_detection/index.dart';
 
 class CACameraPreview extends StatefulWidget {

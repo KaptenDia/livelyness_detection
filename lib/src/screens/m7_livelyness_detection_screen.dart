@@ -8,6 +8,13 @@ import 'package:livelyness_detection/index.dart';
 import '../../livelyness_detection.dart';
 
 List<CameraDescription> availableCams = [];
+const CameraLensDirection defaultCameraLensDirection =
+    CameraLensDirection.front;
+CameraDescription? frontCamera;
+CameraDescription? backCamera;
+CameraController? controller;
+CameraLensDirection currentCameraLensDirection = CameraLensDirection.back;
+bool isFlashOn = false;
 
 class LivelynessDetectionScreenV1 extends StatefulWidget {
   final DetectionConfig config;
@@ -78,16 +85,20 @@ class _MLivelyness7DetectionScreenState
 
   void _postFrameCallBack() async {
     availableCams = await availableCameras();
-    if (availableCams.any(
-      (element) =>
-          element.lensDirection == CameraLensDirection.front &&
-          element.sensorOrientation == 90,
-    )) {
-      _cameraIndex = availableCams.indexOf(
-        availableCams.firstWhere((element) =>
-            element.lensDirection == CameraLensDirection.front &&
-            element.sensorOrientation == 90),
-      );
+    if (availableCams.isNotEmpty) {
+      for (var element in availableCams) {
+        if (element.lensDirection == CameraLensDirection.front &&
+            frontCamera == null) {
+          frontCamera = element;
+        }
+        if (element.lensDirection == CameraLensDirection.back &&
+            backCamera == null) {
+          backCamera = element;
+        }
+      }
+      startCamera(defaultCameraLensDirection == CameraLensDirection.front
+          ? frontCamera ?? backCamera ?? availableCams.first
+          : backCamera ?? frontCamera ?? availableCams.first);
     } else {
       _cameraIndex = availableCams.indexOf(
         availableCams.firstWhere(
@@ -97,6 +108,41 @@ class _MLivelyness7DetectionScreenState
     }
     if (!widget.config.startWithInfoScreen) {
       _startLiveFeed();
+    }
+  }
+
+  void startCamera(CameraDescription cameraDescription) {
+    if (controller == null || cameraDescription != controller?.description) {
+      currentCameraLensDirection = cameraDescription.lensDirection;
+      controller = CameraController(
+        cameraDescription,
+        ResolutionPreset.high,
+        enableAudio: false,
+      );
+      controller?.initialize().then((_) {
+        if (!mounted) {
+          return;
+        }
+        setFlashMode(isFlashOn);
+        setState(() {});
+      }).catchError((Object e) {
+        // if (e is CameraException) {
+        //   getIt<AppNavigator>().showDefaultModalBottom(
+        //     title: e.code,
+        //     message: e.description,
+        //   );
+        // } else {
+        //   getIt<AppNavigator>().showDefaultModalBottom(message: e.toString());
+        // }
+      });
+    }
+  }
+
+  void setFlashMode(bool isFlashOn) {
+    if (controller != null && controller!.value.isInitialized) {
+      controller!.setFlashMode(
+        isFlashOn ? FlashMode.torch : FlashMode.off,
+      );
     }
   }
 

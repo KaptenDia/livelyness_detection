@@ -392,7 +392,6 @@ class _LivelynessDetectionScreenAndroidState
                 // aspectRatio: CameraAspectRatios.ratio_16_9,
                 sensorConfig: SensorConfig.single(
                   aspectRatio: CameraAspectRatios.ratio_16_9,
-                  flashMode: FlashMode.auto,
                   sensor: Sensor.position(SensorPosition.front),
                 ),
                 onImageForAnalysis: (img) => _processCameraImage(img),

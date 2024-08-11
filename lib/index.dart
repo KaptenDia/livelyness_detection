@@ -3,8 +3,8 @@ export 'dart:io';
 export 'dart:math';
 
 export 'package:animate_do/animate_do.dart';
-export 'package:camera/camera.dart' hide FlashMode;
-export 'package:camerawesome/camerawesome_plugin.dart';
+export 'package:camera/camera.dart';
+export 'package:camerawesome/camerawesome_plugin.dart' hide FlashMode;
 export 'package:camerawesome/pigeon.dart';
 export 'package:equatable/equatable.dart';
 export 'package:flutter/foundation.dart';

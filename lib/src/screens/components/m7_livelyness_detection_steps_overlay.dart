@@ -171,7 +171,8 @@ class LivelynessDetectionStepOverlayState
                       margin: const EdgeInsets.symmetric(
                         horizontal: 30,
                       ),
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).padding.bottom + 32),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -188,8 +189,7 @@ class LivelynessDetectionStepOverlayState
                               textAlign: TextAlign.center,
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
                               ),
                             ),
                           ),

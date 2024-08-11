@@ -501,16 +501,16 @@ class _LivelynessDetectionScreenAndroidState
           ),
         ),
         Align(
-          alignment: Alignment.topRight,
+          alignment: Alignment.topLeft,
           child: Padding(
             padding: const EdgeInsets.only(
-              right: 10,
-              top: 10,
+              left: 16,
+              top: 24,
             ),
             child: CircleAvatar(
-              radius: 20,
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.black.withOpacity(0.4),
               child: IconButton(
+                highlightColor: Colors.white.withOpacity(0.1),
                 onPressed: () {
                   _onDetectionCompleted(
                     imgToReturn: null,
@@ -518,8 +518,7 @@ class _LivelynessDetectionScreenAndroidState
                   );
                 },
                 icon: const Icon(
-                  Icons.close_rounded,
-                  size: 20,
+                  Icons.close,
                   color: Colors.white,
                 ),
               ),

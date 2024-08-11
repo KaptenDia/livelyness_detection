@@ -41,6 +41,7 @@ flutter:
     - packages/livelyness_detection/src/assets/lottie/livelyness-success.json
     - packages/livelyness_detection/src/assets/lottie/step_completed.json
     - packages/livelyness_detection/src/assets/final-mesh.png
+    - packages/livelyness_detection/src/assets/bg_camera_overlay.png
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages
   #

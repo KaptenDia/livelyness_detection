@@ -14,6 +14,10 @@ class _ImageAssets {
   String get mesh {
     return "$_initPath/final-mesh.png";
   }
+
+  String get meshMask {
+    return "$_initPath/bg_camera_overlay.png";
+  }
 }
 
 class _LottieAssets {

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:livelyness_detection/index.dart';
+import 'package:livelyness_detection/src/screens/components/face_detection_indicator.dart';
 
 class LivelynessDetectionPageV2 extends StatelessWidget {
   final DetectionConfig config;
@@ -62,6 +63,7 @@ class _LivelynessDetectionScreenAndroidState
   Timer? _timerToDetectFace;
   bool _isCaptureButtonVisible = false;
   bool _isCompleted = false;
+  late int _remainingSeconds;
 
   //* MARK: - Life Cycle Methods
   //? =========================================================
@@ -93,6 +95,7 @@ class _LivelynessDetectionScreenAndroidState
   void _preInitCallBack() {
     _steps = widget.config.steps;
     _isInfoStepCompleted = !widget.config.startWithInfoScreen;
+    _remainingSeconds = widget.config.maxSecToDetect;
   }
 
   void _postFrameCallBack() {
@@ -295,21 +298,27 @@ class _LivelynessDetectionScreenAndroidState
   }
 
   void _startTimer() {
-    _timerToDetectFace = Timer(
-      Duration(seconds: widget.config.maxSecToDetect),
-      () {
-        _timerToDetectFace?.cancel();
-        _timerToDetectFace = null;
-        if (widget.config.allowAfterMaxSec) {
-          _isCaptureButtonVisible = true;
-          if (mounted) {
-            setState(() {});
+    _timerToDetectFace = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        if (_remainingSeconds > 0) {
+          setState(() {
+            _remainingSeconds--;
+          });
+        } else {
+          _timerToDetectFace?.cancel();
+          _timerToDetectFace = null;
+          if (widget.config.allowAfterMaxSec) {
+            _isCaptureButtonVisible = true;
+            if (mounted) {
+              setState(() {});
+            }
+            return;
           }
-          return;
+          _onDetectionCompleted(
+            imgToReturn: null,
+          );
         }
-        _onDetectionCompleted(
-          imgToReturn: null,
-        );
       },
     );
   }
@@ -517,6 +526,10 @@ class _LivelynessDetectionScreenAndroidState
             ),
           ),
         ),
+        if (_isInfoStepCompleted)
+          IgnorePointer(
+              ignoring: true,
+              child: FaceDetectionIndicator(maxSecToDetect: _remainingSeconds)),
       ],
     );
   }
